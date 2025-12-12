@@ -34,7 +34,6 @@ Y_norm = normalize(Y)
 
 sample_data = function(X, Y, n, is_null = TRUE, is_x1 = TRUE) {
   if (is_x1) {
-    
     # uniform sampling for X1
     X_idx = sample(1:nrow(X), nrow(X)%/%2, replace = FALSE)
     X1 = X[X_idx, , drop = FALSE]
@@ -44,7 +43,6 @@ sample_data = function(X, Y, n, is_null = TRUE, is_x1 = TRUE) {
     x_idx = sample(1:nrow(X1), n, replace=FALSE)
     x = X1[x_idx,,drop=FALSE]
   } else {
-    
     # biased sampling for X2 based on normal distribution
     feature_to_bias = X[, 1]  
     prob = dnorm(feature_to_bias, 0, 1)
@@ -59,8 +57,10 @@ sample_data = function(X, Y, n, is_null = TRUE, is_x1 = TRUE) {
   }
   
   if (is_null) {
+    # Null hypothesis: uniform sampling from Y values
     y = sample(Y_subset, size=n, replace=FALSE)
   } else {
+    # Alternative hypothesis: introduce bias in Y1 and Y2
     if (is_x1) {
       u = dunif(Y_subset, 0, 1)
     } else {
@@ -75,7 +75,7 @@ sample_data = function(X, Y, n, is_null = TRUE, is_x1 = TRUE) {
 
 #####----------------------------------------#####
 #####----------------------------------------#####
-n_values = c(1600)
+n_values = c(1600, 2000)
 n_sims = 200
 estimators = c("KLR")
 
@@ -92,12 +92,15 @@ for (n in n_values) {
         seed = 1203 + sim
         set.seed(seed)
         
+        # generate data
         d1 = sample_data(X_norm, Y_norm, n, is_null, TRUE)
         set.seed(seed + n_sims)
         d2 = sample_data(X_norm, Y_norm, n, is_null, FALSE)
-
+        
+        # Apply our test
         pvalue = DRPTcond2sample(d1, d2, S = 50, H = 99, kernel = gaussian.kernel,
                                  prop = 0.2, est.method = est)
+        # Decision
         rejection = 0
         if (pvalue < alpha){
           rejection = 1

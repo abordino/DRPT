@@ -14,6 +14,12 @@ Rcpp::List star_sampler_C(const Rcpp::NumericMatrix X,
   int h = std::min(n, m);
   int d = X.ncol();
 
+  // Ensure m > 0 to avoid division by zero issues
+  if (m <= 0)
+  {
+    Rcpp::stop("Y must have at least one row.");
+  }
+
   // Combine X and Y into one matrix Z
   Rcpp::NumericMatrix Z(n + m, d);
 
@@ -33,7 +39,7 @@ Rcpp::List star_sampler_C(const Rcpp::NumericMatrix X,
     }
   }
 
-  // Save original copy of Z as Z^{(0)}
+  // Save original copy of Z - We save Z^{(0)}
   Rcpp::NumericMatrix Z_original = clone(Z);
 
   // Function to swap elements based on r() ratio - Algorithm 1
@@ -46,8 +52,8 @@ Rcpp::List star_sampler_C(const Rcpp::NumericMatrix X,
     List r_m_args(d);
     for (int j = 0; j < d; j++)
     {
-      r_n_args[j] = Z(Rcpp::Range(0, n - 1), Rcpp::Range(j, j));     
-      r_m_args[j] = Z(Rcpp::Range(n, n + m - 1), Rcpp::Range(j, j));
+      r_n_args[j] = Z(Rcpp::Range(0, n - 1), Rcpp::Range(j, j));     // Extract each column from start to end
+      r_m_args[j] = Z(Rcpp::Range(n, n + m - 1), Rcpp::Range(j, j)); // Extract each column from start to end
     }
 
     Environment base = Environment::namespace_env("base");
@@ -60,7 +66,7 @@ Rcpp::List star_sampler_C(const Rcpp::NumericMatrix X,
     for (int i = 0; i < len; i++)
     {
       if (ind_n[i] < n && ind_m[i] >= n && ind_m[i] < (n + m))
-      {
+      { // Ensure valid indices
         double odds_ratio = r_n[ind_n[i]] / r_m[ind_m[i] - n];
         if (R::runif(0, 1) < odds_ratio / (1 + odds_ratio))
         {
@@ -73,7 +79,7 @@ Rcpp::List star_sampler_C(const Rcpp::NumericMatrix X,
     }
   };
 
-  // **Main Sampling Loop** - Generate Z^ast
+  // **Main Sampling Loop** - Generate Z^star
   for (int j = 0; j < S; j++)
   {
     std::vector<int> ind_n = Rcpp::as<std::vector<int>>(Rcpp::sample(n, h, false));
@@ -90,10 +96,11 @@ Rcpp::List star_sampler_C(const Rcpp::NumericMatrix X,
   // Store intermediate `Z_star`
   Rcpp::NumericMatrix Z_star = clone(Z);
 
-  // **Preallocate List** to store the Z^{(h)}'s
+  // **Preallocate List** to Store Bootstrap Samples
   Rcpp::List exch_Z(H + 1);
   exch_Z[0] = Z_original; // Store original data in the first position
 
+  // **Bootstrap Procedure**
   for (int b = 1; b <= H; b++)
   {
     for (int j = 0; j < S; j++)
@@ -108,7 +115,7 @@ Rcpp::List star_sampler_C(const Rcpp::NumericMatrix X,
 
       swap_based_on_odds_ratio(ind_n, ind_m);
     }
-    exch_Z[b] = clone(Z); // Store results into Z^{(h)}
+    exch_Z[b] = clone(Z); // Store results into Z^{(b)}
     Z = clone(Z_star);    // Reset Z to Z^star for next iteration
   }
 

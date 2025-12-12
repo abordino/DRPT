@@ -32,7 +32,7 @@ struct SumLambda
   }
 };
 
-// Bisection method
+// Bisection root finding
 double bisection(SumLambda &func, double lower, double upper, double tol, int max_iter)
 {
   double mid, f_lower, f_mid;
@@ -45,20 +45,20 @@ double bisection(SumLambda &func, double lower, double upper, double tol, int ma
 
     if (std::abs(f_mid) < tol || (upper - lower) / 2.0 < tol)
     {
-      return mid; 
+      return mid; // Root found within tolerance
     }
 
     if (f_lower * f_mid < 0)
     {
-      upper = mid;
+      upper = mid; // Root is in lower half
     }
     else
     {
-      lower = mid;
+      lower = mid; // Root is in upper half
       f_lower = f_mid;
     }
   }
-  return mid;
+  return mid; // Return best approximation after max iterations
 }
 
 // Define shifted MMD
@@ -88,10 +88,11 @@ double compute_lambda_star_C(Rcpp::NumericMatrix X, Rcpp::NumericMatrix Y,
     }
   }
 
-  // Find the root
+  // Root finding setup
   SumLambda sum_lambda(Z, n, m, d, r);
   double lower_bound = 0.0, upper_bound = 100.0, tol = std::pow(std::numeric_limits<double>::epsilon(), 4);
 
+  // Perform root finding using manual bisection method
   return bisection(sum_lambda, lower_bound, upper_bound, tol, 100);
 }
 
@@ -136,7 +137,7 @@ double compute_mmd_C(NumericMatrix X, NumericMatrix Y,
       }
     }
   }
-  first_term /= (n * n);
+  first_term /= (n * (n - 1));
 
   // Second term
   double second_term = 0.0;
@@ -164,7 +165,7 @@ double compute_mmd_C(NumericMatrix X, NumericMatrix Y,
       }
     }
   }
-  second_term /= (m * m);
+  second_term /= (m * (m - 1));
 
   // Mixed term
   double mixed_term = 0.0;
