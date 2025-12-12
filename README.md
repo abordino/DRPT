@@ -2,7 +2,8 @@
 
 This repository contains the implementation of the **Density Ratio Permutation Test (DRPT)** along with code to reproduce all simulations and experiments presented in the paper [Density Ratio Permutation Tests with connections to distributional shifts and conditional two-sample testing](https://arxiv.org/abs/2505.24529).
 
-Implementations of our methods are provided in the R-package [DRPT](https://cran.r-project.org/package=DRPT).
+
+**Implementations of our methods are provided in the R-package [DRPT](https://cran.r-project.org/package=DRPT).**
 
 Code to reproduce the experiments in the paper [General Frameworks for Conditional Two-Sample Testing](https://arxiv.org/abs/2410.16636) can be found at [this link](https://github.com/suman-cha/Cond2ST?tab=readme-ov-file).
 
