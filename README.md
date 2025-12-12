@@ -17,6 +17,12 @@ The repository is organised into folders corresponding to different experimental
 - **`frisk/`**  
   Evaluates DRPT performance on the New York frisk dataset. The dataset is available at [this link](https://www.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page).
 
+- **`twoMoon/`**  
+  Evaluates DRPT performance on the Two Moons dataset. Details on this dateset can be found on [this webpage](https://bayesflow.org/main/_examples/Two_Moons_Starter.html).
+
+- **`propensityCausal/`**  
+  Evaluates DRPT performance on a synthethic setting motivated by causal inference applications.
+
 - **`synthetic/`**  
   Tests DRPT on synthetically generated datasets.
 
