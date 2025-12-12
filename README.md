@@ -5,7 +5,6 @@ This repository contains the implementation of the **Density Ratio Permutation T
 
 **Implementations of our methods are provided in the R-package [DRPT](https://cran.r-project.org/package=DRPT).**
 
-Code to reproduce the experiments in the paper [General Frameworks for Conditional Two-Sample Testing](https://arxiv.org/abs/2410.16636) can be found at [this link](https://github.com/suman-cha/Cond2ST?tab=readme-ov-file).
 
 ## Repository Structure
 
@@ -32,4 +31,7 @@ The repository is organised into folders corresponding to different experimental
 ---
 
 Feel free to explore each folder based on your use case or interest.
+
+Code to reproduce the diamonds dataset experiments in the paper [General Frameworks for Conditional Two-Sample Testing](https://arxiv.org/abs/2410.16636) can be found at [this link](https://github.com/suman-cha/Cond2ST?tab=readme-ov-file).
+
 
