@@ -1,6 +1,6 @@
 # DRPT: Density Ratio Permutation Test
 
-This repository contains the implementation of the **Density Ratio Permutation Test (DRPT)** along with code to reproduce all simulations and experiments presented in the paper [Density Ratio Permutation Tests with connections to distributional shifts and conditional two-sample testing](https://arxiv.org/abs/2505.24529).
+This repository contains the implementation of the **Density Ratio Permutation Test (DRPT)** along with code to reproduce all simulations and experiments presented in the paper [Nonparametric inference for ratios of densities via uniformly valid and powerful permutation tests](https://arxiv.org/abs/2505.24529).
 
 
 **Implementations of our methods are provided in the R-package [DRPT](https://cran.r-project.org/package=DRPT).**
