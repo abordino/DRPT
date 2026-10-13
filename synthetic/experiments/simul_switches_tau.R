@@ -26,7 +26,7 @@ H = 99
 # keep the number of proposed pairs per Markov step fixed at 5,
 # and vary the number of Markov steps S from 1 to 10.
 number_pairs_switched = 5
-S_grid = 1:10
+S_grid = 1:20
 
 # Total number of pair-switch proposals across the S Markov steps.
 # This is the quantity shown on the x-axis.
