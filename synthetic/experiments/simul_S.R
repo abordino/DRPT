@@ -242,7 +242,7 @@ results = do.call(
 rownames(results) = NULL
 
 
-## ---------- Monte Carlo standard errors ----------
+## ---------- Standard errors ----------
 
 results$SE = sqrt(
   results$Power *
@@ -306,14 +306,11 @@ write.csv(
 )
 
 
-## ---------- Standard errors in array form ----------
+## ---------- Standard errors ----------
 
 power_se = sqrt(
   power * (1 - power) / MC
 )
-
-
-## ---------- Helper for standard-error bars ----------
 
 add_err = function(x, y, se, col){
   
@@ -371,7 +368,7 @@ ltys = c(
 )
 
 
-## ---------- High-resolution PNG ----------
+## ---------- PNG ----------
 
 png(
   "experiments/pictures/BIV1_DRPT_power_vs_S_eta.png",
